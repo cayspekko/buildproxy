@@ -40,6 +40,7 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
+          components: cross
           target: ${{ matrix.target }}
 
       # - name: Build target
