@@ -40,7 +40,6 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
-          components: cross
           target: ${{ matrix.target }}
 
       # - name: Build target
@@ -53,6 +52,7 @@ jobs:
       - name: Download and Build External Rust Repository
         shell: bash
         run: |
+          cargo install cross 
           git clone https://github.com/neosmart/udpproxy.git
           cd udpproxy
           cross run --release --target ${{ matrix.target }}
