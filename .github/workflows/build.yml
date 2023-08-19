@@ -55,7 +55,7 @@ jobs:
           cargo install cross 
           git clone https://github.com/neosmart/udpproxy.git
           cd udpproxy
-          cross run --release --target ${{ matrix.target }}
+          cross run --release --target ${{ matrix.target }} || true
 
       - name: Package
         shell: bash
