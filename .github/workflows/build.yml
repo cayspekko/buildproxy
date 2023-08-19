@@ -54,7 +54,11 @@ jobs:
         run: |
           cargo install cross 
           git clone https://github.com/neosmart/udpproxy.git
+          git clone https://github.com/neosmart/tcpproxy.git
           cd udpproxy
+          cross run --release --target ${{ matrix.target }} || true
+          cd -
+          cd tcpproxy
           cross run --release --target ${{ matrix.target }} || true
 
       - name: Package
@@ -63,10 +67,13 @@ jobs:
           cd udpproxy/target/${{ matrix.target }}/release          
           tar czvf ../../../../udpproxy-${{ matrix.target }}.tar.gz udpproxy
           cd -
+          cd tcpproxy/target/${{ matrix.target }}/release
+          tar czvf ../../../../tcpproxy-${{ matrix.target }}.tar.gz tcpproxy
+          cd -
       - name: Publish
         uses: softprops/action-gh-release@v1
         # TODO: if any of the build step fails, the release should be deleted.
         with:
-            files: 'udpproxy*'
+            files: '*proxy*'
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
