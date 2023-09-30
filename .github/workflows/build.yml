@@ -53,23 +53,28 @@ jobs:
         shell: bash
         run: |
           cargo install cross 
-          git clone https://github.com/neosmart/udpproxy.git
-          git clone https://github.com/neosmart/tcpproxy.git
-          cd udpproxy
-          cross run --release --target ${{ matrix.target }} || true
-          cd -
-          cd tcpproxy
-          cross run --release --target ${{ matrix.target }} || true
+          # git clone https://github.com/neosmart/udpproxy.git
+          # git clone https://github.com/neosmart/tcpproxy.git
+          # cd udpproxy
+          # cross run --release --target ${{ matrix.target }} || true
+          # cd -
+          # cd tcpproxy
+          # cross run --release --target ${{ matrix.target }} || true
+          git clone --depth 1 --branch 0.1.0 https://github.com/glacierx/rproxy.git
+          cd rproxy
+          cross build --release --target ${{ matrix.target }} || true
 
       - name: Package
         shell: bash
         run: |
-          cd udpproxy/target/${{ matrix.target }}/release          
-          tar czvf ../../../../udpproxy-${{ matrix.target }}.tar.gz udpproxy
-          cd -
-          cd tcpproxy/target/${{ matrix.target }}/release
-          tar czvf ../../../../tcpproxy-${{ matrix.target }}.tar.gz tcpproxy
-          cd -
+          # cd udpproxy/target/${{ matrix.target }}/release          
+          # tar czvf ../../../../udpproxy-${{ matrix.target }}.tar.gz udpproxy
+          # cd -
+          # cd tcpproxy/target/${{ matrix.target }}/release
+          # tar czvf ../../../../tcpproxy-${{ matrix.target }}.tar.gz tcpproxy
+          # cd -
+          cd rproxy/target/${{ matrix.target }}/release 
+          tar czvf ../../../../rproxy-${{ matrix.target }}.tar.gz rproxy
       - name: Publish
         uses: softprops/action-gh-release@v1
         # TODO: if any of the build step fails, the release should be deleted.
